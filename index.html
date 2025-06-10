@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kildare Kirana Online Store</title>
+  <style>
+    :root {
+      --saffron: #FF9933;
+      --green: #138808;
+      --maroon: #800000;
+      --cream: #FFF8E1;
+      --shadow: rgba(0,0,0,0.07);
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--cream);
+      color: #222;
+    }
+    header {
+      background: linear-gradient(90deg, var(--saffron), var(--green));
+      color: #fff;
+      padding: 1.5rem 0;
+      text-align: center;
+      letter-spacing: 2px;
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+    nav {
+      background: var(--maroon);
+      text-align: center;
+      padding: 0.5rem 0;
+    }
+    nav a {
+      color: #fff;
+      margin: 0 1.5rem;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.2s;
+    }
+    nav a:hover {
+      color: var(--saffron);
+    }
+    .container {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .section-title {
+      color: var(--maroon);
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      border-left: 6px solid var(--saffron);
+      padding-left: 0.5rem;
+    }
+    .products {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px var(--shadow);
+      width: 220px;
+      padding: 1.2rem;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: 0 8px 24px var(--shadow);
+    }
+    .card img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      margin-bottom: 1rem;
+    }
+    .card .name {
+      font-weight: bold;
+      color: var(--green);
+      margin-bottom: 0.5rem;
+    }
+    .card .price {
+      color: var(--maroon);
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    .card button {
+      background: var(--saffron);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5rem 1.2rem;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+    .card button:hover {
+      background: var(--green);
+    }
+    footer {
+      background: var(--maroon);
+      color: #fff;
+      text-align: center;
+      padding: 1rem 0;
+      margin-top: 2rem;
+      font-size: 0.95rem;
+    }
+    @media (max-width: 700px) {
+      .products { flex-direction: column; align-items: center; }
+      .container { padding: 0 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Kildare Kirana Online Store</h1>
+    <p>Authentic Indian Pulses & Spices Delivered Fresh</p>
+    <p>  Exclusively for Newbridge/Kildare/Naas people  </p>
+  </header>
+  <nav>
+    <a href="#Rice">Rice</a>
+    <a href="#pulses">Pulses</a>
+    <a href="#Snacks">Snacks</a>
+    <a href="#Spices">Spices</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="container">
+    </section>
+    <section id="Rice" style="margin-top:2.5rem;">
+      <h2 class="section-title">Indian Rice</h2>
+      <div class="products">
+        <div class="card">
+          <img src="https://ebazaar.ie/wp-content/uploads/2024/12/Diet-Sona-Masoori-Rice.jpg" alt="Rice">
+          <div class="name">Yukta Low Sugar (Diet) Rice</div>
+          <div class="price">€34.99/20kg</div>
+          <button>Add to Cart</button>
+        </div>
+    <section id="pulses">
+      <h2 class="section-title">Indian Pulses</h2>
+      <div class="products">
+        <div class="card">
+          <img src="https://www.tenalidoublehorse.com/cdn/shop/files/Premium-Urad-Gota-1Kg.png?v=1748516581&width=1100" alt="Urda Dal">
+          <div class="name">Tenali Double Horse Urad Dal</div>
+          <div class="price">€6.49/1.8kg</div>
+          <button>Add to Cart</button>
+        </div>
+        <div class="card">
+          <img src="https://www.tenalidoublehorse.com/cdn/shop/files/Premium-Toor-Dall-1kg.png?v=1748516561&width=1100" alt="Toor Dal">
+          <div class="name">Tenali Double Horse Toor Dal</div>
+          <div class="price">€6.49/1.8kg</div>
+          <button>Add to Cart</button>
+        </div>
+        <div class="card">
+          <img src="https://www.tenalidoublehorse.com/cdn/shop/files/Premium-Moong-Dall-500g.png?v=1748516676&width=533" alt="Moong Dal">
+          <div class="name">Tenali Double Horse Moong Dal</div>
+          <div class="price">€5.99/1.8kg</div>
+          <button>Add to Cart</button>
+        </div>
+        <div class="card">
+          <img src="https://www.tenalidoublehorse.com/cdn/shop/files/Premium-Chana-Dall-500g.png?v=1748516721&width=533" alt="Chana Dal">
+          <div class="name">Tenali Double Horse Chana Dal</div>
+          <div class="price">€1.99/500mg</div>
+          <button>Add to Cart</button>
+        </div>
+        <div class="card">
+          <img src="https://www.tenalidoublehorse.com/cdn/shop/files/Premium-Idly-Ravva-1Kg.png?v=1748516621&width=533" alt="Idli Ravva">
+          <div class="name">Tenali Double Horse Idli Ravva</div>
+          <div class="price">€2.49/kg</div>
+          <button>Add to Cart</button>
+        </div>
+      </div>
+    </section>
+    <section id="Snacks" style="margin-top:2.5rem;">
+      <h2 class="section-title">Indian Snacks</h2>
+      <div class="products">
+        <div class="card">
+          <img src="https://ebazaar.ie/wp-content/uploads/2024/12/Diet-Sona-Masoori-Ric.jpg" alt="Soda">
+          <div class="name">Gulp Soda (Lime/Mango/Orange/Jeera)</div>
+          <div class="price">€2.49/pc</div>
+          <button>Add to Cart</button>
+        </div>
+        <div class="card">
+          <img src="https://ebazaar.ie/wp-content/uploads/2024/12/Diet-Sona-Masoori-Ric.jpg" alt="Snacks">
+          <div class="name">Snacks</div>
+          <div class="price">Coming Soon..</div>
+          <button>Add to Cart</button>
+        </div>
+    </section>
+    <section id="Spices" style="margin-top:2.5rem;">
+      <h2 class="section-title">Indian Spices</h2>
+      <div class="products">
+        <div class="card">
+          <img src="https://img.icons8.com/color/96/000000/turmeric.png" alt="Turmeric">
+          <div class="name">Turmeric Powder</div>
+          <div class="price">Coming Soon..</div>
+          <button>Add to Cart</button>
+        </div>
+        <div class="card">
+          <img src="https://img.icons8.com/color/96/000000/chili-pepper.png" alt="Red Chilli">
+          <div class="name">Red Chilli Powder</div>
+          <div class="price">Coming Soon..</div>
+          <button>Add to Cart</button>
+        </div>
+        <div class="card">
+          <img src="https://img.icons8.com/color/96/000000/coriander.png" alt="Coriander">
+          <div class="name">Coriander Powder</div>
+          <div class="price">Coming Soon..</div>
+          <button>Add to Cart</button>
+        </div>
+        <div class="card">
+          <img src="https://img.icons8.com/color/96/000000/cumin.png" alt="Cumin">
+          <div class="name">Cumin Seeds</div>
+          <div class="price">Coming Soon..</div>
+          <button>Add to Cart</button>
+        </div>
+      </div>
+    </section>
+    <section id="contact" style="margin-top:2.5rem;">
+      <h2 class="section-title">Contact Us</h2>
+      <p>Email: <a href="mailto:info@bharatgrocers.in">info@bharatgrocers.in</a></p>
+      <p>Phone: +353-899671640</p>
+    </section>
+  </div>
+  <footer>
+    &copy; 2025 Kildare Kirana Online Store. Bringing India’s flavors to your doorstep.
+  </footer>
+</body>
+</html>
