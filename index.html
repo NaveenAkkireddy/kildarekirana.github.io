@@ -25,6 +25,7 @@
       text-align: center;
       letter-spacing: 2px;
       box-shadow: 0 2px 8px var(--shadow);
+      position: relative;
     }
     nav {
       background: var(--maroon);
@@ -109,18 +110,158 @@
       margin-top: 2rem;
       font-size: 0.95rem;
     }
+    #cart-summary {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px var(--shadow);
+      padding: 1.2rem;
+      margin: 1rem auto;
+      max-width: 600px;
+      display: none;
+    }
+    #cart-items {
+      list-style: none;
+      padding: 0;
+    }
+    #cart-items li {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #eee;
+    }
+    #placeOrderBtn {
+      display: none;
+      margin: 20px auto;
+      background-color: var(--saffron);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.8rem 2rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    #order-form {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px var(--shadow);
+      padding: 1.2rem;
+      margin: 1rem auto;
+      max-width: 600px;
+      display: none;
+    }
+    #order-form label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    #order-form input, #order-form textarea {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-top: 0.5rem;
+    }
+    #order-form button {
+      background: var(--saffron);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.8rem 2rem;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 1rem;
+      width: 100%;
+    }
+    .cart-icon {
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.2);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      color: #fff;
+      font-weight: bold;
+    }
+    .cart-icon:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    .cart-icon i {
+      font-size: 1.5rem;
+    }
+    .cart-icon .count {
+      background: var(--maroon);
+      color: #fff;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+    .cart-popup {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px var(--shadow);
+      padding: 1rem;
+      width: 320px;
+      max-height: 80vh;
+      overflow-y: auto;
+      z-index: 1000;
+      display: none;
+    }
+    .cart-popup h3 {
+      margin-top: 0;
+      color: var(--maroon);
+    }
+    .cart-popup ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .cart-popup li {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #eee;
+    }
     @media (max-width: 700px) {
       .products { flex-direction: column; align-items: center; }
       .container { padding: 0 0.5rem; }
+      .cart-icon {
+        right: 1rem;
+      }
+      .cart-popup {
+        width: 280px;
+        right: 10px;
+      }
     }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
   <header>
     <h1>Kildare Kirana Online Store</h1>
     <p>Authentic Indian Pulses & Spices Delivered Fresh</p>
-    <p>  Exclusively for Newbridge/Kildare/Naas people  </p>
+    <p>Exclusively for Newbridge/Kildare/Naas people</p>
+    <div class="cart-icon" id="cartIcon">
+      <i class="fas fa-shopping-cart"></i>
+      <span class="count" id="cartCount">0</span>
+    </div>
   </header>
+  <div class="cart-popup" id="cartPopup">
+    <h3>Your Cart</h3>
+    <ul id="cartPopupList"></ul>
+    <div id="cartPopupTotal"></div>
+    <button id="placeOrderFromPopup" style="background: var(--saffron); color: #fff; border: none; border-radius: 4px; padding: 0.5rem 1rem; cursor: pointer; font-weight: bold; width: 100%; margin-top: 1rem;">Place Order</button>
+  </div>
   <nav>
     <a href="#rice">Rice</a>
     <a href="#pulses">Pulses</a>
@@ -158,6 +299,7 @@
         <div class="card">
           <img src="https://www.tenalidoublehorse.com/cdn/shop/files/Premium-Moong-Dall-500g.png?v=1748516676&width=533" alt="Moong Dal">
           <div class="name">Tenali Double Horse Moong Dal</div>
+          <!-- Remove duplicate price (email) -->
           <div class="price">€5.99/1.8kg</div>
           <button>Add to Cart</button>
         </div>
@@ -168,7 +310,7 @@
           <button>Add to Cart</button>
         </div>
         <div class="card">
-          <img src="https://www.tenalidoublehorse.com/cdn/shop/files/Premium-Idly-Ravva-1Kg.png?v=1748516621&width=533" alt="Idli Ravva">
+          <img src="https://www.tenalidoublehorse.com.com/cdn/shop/files/Premium-Idly-Ravva-1Kg.png?v=1748516621&width=533" alt="Idli Ravva">
           <div class="name">Tenali Double Horse Idli Ravva</div>
           <div class="price">€2.49/kg</div>
           <button>Add to Cart</button>
@@ -221,6 +363,18 @@
         </div>
       </div>
     </section>
+    <section id="order-form">
+      <h2 class="section-title">Place Your Order</h2>
+      <form id="orderForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" rows="3" required></textarea>
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" pattern="[0-9]{10,15}" required>
+        <button type="submit">Submit Order</button>
+      </form>
+    </section>
     <section id="contact" style="margin-top:2.5rem;">
       <h2 class="section-title">Contact Us</h2>
       <p>Email: <a href="mailto:naveen.akkireddy@gmail.com">naveen.akkireddy@gmail.com</a></p>
@@ -230,5 +384,120 @@
   <footer>
     &copy; 2025 Kildare Kirana Online Store. Bringing India’s flavors to your doorstep.
   </footer>
+  <script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartIcon = document.getElementById('cartIcon');
+    const cartCount = document.getElementById('cartCount');
+    const cartPopup = document.getElementById('cartPopup');
+    const cartPopupList = document.getElementById('cartPopupList');
+    const cartPopupTotal = document.getElementById('cartPopupTotal');
+    const placeOrderFromPopup = document.getElementById('placeOrderFromPopup');
+    const orderForm = document.getElementById('orderForm');
+
+    function updateCart() {
+      // Update cart count
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      cartCount.textContent = totalItems;
+      // Update cart popup
+      cartPopupList.innerHTML = '';
+      let total = 0;
+      cart.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <span>${item.name} (${item.price})</span>
+          <span>Qty: ${item.quantity}</span>
+        `;
+        cartPopupList.appendChild(li);
+        const priceValue = parseFloat(item.price.match(/[\d.]+/)[0]);
+        total += priceValue * item.quantity;
+      });
+      cartPopupTotal.innerHTML = `<strong>Total: €${total.toFixed(2)}</strong>`;
+    }
+
+    function addToCart(name, price) {
+      const item = cart.find(item => item.name === name);
+      if (item) {
+        item.quantity += 1;
+      } else {
+        cart.push({ name, price, quantity: 1 });
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCart();
+      alert(`${name} added to cart!`);
+    }
+
+    function handleAddToCart(event) {
+      const button = event.target;
+      const card = button.closest('.card');
+      const name = card.querySelector('.name').innerText;
+      const price = card.querySelector('.price').innerText;
+      addToCart(name, price);
+    }
+
+    // Toggle cart popup
+    cartIcon.addEventListener('click', () => {
+      if (cartPopup.style.display === 'block') {
+        cartPopup.style.display = 'none';
+      } else {
+        cartPopup.style.display = 'block';
+      }
+    });
+
+    // Place order from popup
+    placeOrderFromPopup.addEventListener('click', () => {
+      cartPopup.style.display = 'none';
+      // Scroll to the order form section
+      const orderFormSection = document.getElementById('order-form');
+      orderFormSection.style.display = 'block';
+      orderFormSection.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Handle form submission
+    orderForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+
+      if (!name || !address || !phone) {
+        alert('Please fill all the fields.');
+        return;
+      }
+
+      // Prepare email body with order details
+      let orderDetails = `Name: ${name}\nAddress: ${address}\nPhone: ${phone}\n\nOrder Items:\n`;
+      cart.forEach(item => {
+        orderDetails += `${item.name} (${item.price}) x ${item.quantity}\n`;
+      });
+      const total = cart.reduce((sum, item) => {
+        const priceValue = parseFloat(item.price.match(/[\d.]+/)[0]);
+        return sum + (priceValue * item.quantity);
+      }, 0);
+      orderDetails += `\nTotal: €${total.toFixed(2)}`;
+
+      // Open user's mail client with pre-filled email
+      const mailto = `mailto:naveen.akkireddy@gmail.com?subject=New Order from Kildare Kirana Online Store&body=${encodeURIComponent(orderDetails)}`;
+      window.location.href = mailto;
+
+      // Show confirmation
+      alert(`Thank you, ${name}! Your order details have been sent. We will contact you at your phone number.`);
+
+      // Clear cart and form
+      localStorage.removeItem('cart');
+      cart = [];
+      orderForm.reset();
+      document.getElementById('order-form').style.display = 'none';
+      updateCart();
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      const buttons = document.querySelectorAll('.card button');
+      buttons.forEach(button => {
+        button.addEventListener('click', handleAddToCart);
+      });
+      updateCart();
+    });
+  </script>
 </body>
 </html>
