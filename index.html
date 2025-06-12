@@ -333,7 +333,7 @@
           <img src="https://ebazaar.ie/wp-content/uploads/2024/12/Diet-Sona-Masoori-Ric.jpg" alt="Snacks">
           <div class="name">Snacks</div>
           <div class="price">Coming Soon..</div>
-          <button>Add to Cart</button>
+          <button disabled style="cursor: not-allowed; background: #ccc;">Add to Cart</button>
         </div>
       </div>
     </section>
@@ -344,31 +344,37 @@
           <img src="https://img.icons8.com/color/96/000000/turmeric.png" alt="Turmeric">
           <div class="name">Turmeric Powder</div>
           <div class="price">Coming Soon..</div>
-          <button>Add to Cart</button>
+          <button disabled style="cursor: not-allowed; background: #ccc;">Add to Cart</button>
         </div>
         <div class="card">
           <img src="https://img.icons8.com/color/96/000000/chili-pepper.png" alt="Red Chilli">
           <div class="name">Red Chilli Powder</div>
           <div class="price">Coming Soon..</div>
-          <button>Add to Cart</button>
+          <button disabled style="cursor: not-allowed; background: #ccc;">Add to Cart</button>
         </div>
         <div class="card">
           <img src="https://img.icons8.com/color/96/000000/coriander.png" alt="Coriander">
           <div class="name">Coriander Powder</div>
           <div class="price">Coming Soon..</div>
-          <button>Add to Cart</button>
+          <button disabled style="cursor: not-allowed; background: #ccc;">Add to Cart</button>
         </div>
         <div class="card">
           <img src="https://img.icons8.com/color/96/000000/cumin.png" alt="Cumin">
           <div class="name">Cumin Seeds</div>
           <div class="price">Coming Soon..</div>
-          <button>Add to Cart</button>
+          <button disabled style="cursor: not-allowed; background: #ccc;">Add to Cart</button>
         </div>
       </div>
     </section>
     <section id="order-form">
       <h2 class="section-title">Place Your Order</h2>
-      <form id="orderForm">
+      <form id="orderForm" method="POST" action="https://formsubmit.co/naveen.akkireddy@gmail.com">
+        <!-- Prevent bot spam -->
+        <input type="hidden" name="_captcha" value="false">
+        <!-- Redirect to a thank you page or show success -->
+        <input type="hidden" name="_next" value="https://kildarekirana.com/thank-you.html">
+        <!-- This field will contain cart summary -->
+        <input type="hidden" name="order_summary" id="orderSummary">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
         <label for="address">Address:</label>
@@ -478,41 +484,33 @@
 
     // Handle form submission
     orderForm.addEventListener('submit', (e) => {
-      e.preventDefault();
       const name = document.getElementById('name').value.trim();
       const address = document.getElementById('address').value.trim();
       const phone = document.getElementById('phone').value.trim();
+      const summaryInput = document.getElementById('orderSummary');
 
       if (!name || !address || !phone) {
         alert('Please fill all the fields.');
+        e.preventDefault();
         return;
       }
 
-      // Prepare email body with order details
+    // Build order summary
       let orderDetails = `Name: ${name}\nAddress: ${address}\nPhone: ${phone}\n\nOrder Items:\n`;
       cart.forEach(item => {
-        orderDetails += `${item.name} (${item.price}) x ${item.quantity}\n`;
+      orderDetails += `${item.name} (${item.price}) x ${item.quantity}\n`;
       });
       const total = cart.reduce((sum, item) => {
-        const priceValue = parseFloat(item.price.match(/[\d.]+/)[0]);
-        return sum + (priceValue * item.quantity);
+      const priceValue = parseFloat(item.price.match(/[\d.]+/)[0]);
+      return sum + (priceValue * item.quantity);
       }, 0);
       orderDetails += `\nTotal: €${total.toFixed(2)}`;
 
-      // Open user's mail client with pre-filled email
-      const mailto = `mailto:naveen.akkireddy@gmail.com?subject=New Order from Kildare Kirana Online Store&body=${encodeURIComponent(orderDetails)}`;
-      window.location.href = mailto;
+    // Set hidden input value
+      summaryInput.value = orderDetails;
 
-      // Show confirmation
-      alert(`Thank you, ${name}! Your order details have been sent. We will contact you at your phone number.`);
-
-      // Clear cart and form
-      localStorage.removeItem('cart');
-      cart = [];
-      orderForm.reset();
-      document.getElementById('order-form').style.display = 'none';
-      updateCart();
-    });
+  // Cart will be cleared after successful form submission
+  });
 
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
