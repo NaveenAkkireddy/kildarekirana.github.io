@@ -173,9 +173,10 @@
       width: 100%;
     }
     .cart-icon {
-      position: absolute;
-      top: 1.5rem;
+      position: fixed;
       right: 2rem;
+      top: 1.5rem;
+      z-index: 10000;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -183,8 +184,10 @@
       background: rgba(255,255,255,0.2);
       padding: 0.5rem 1rem;
       border-radius: 50px;
-      color: #fff;
+      color: var(--maroon);
       font-weight: bold;
+      transition: left 0.08s linear, top 0.08s  linear;
+      pointer-events: auto; /* keep clickable */
     }
     .cart-icon:hover {
       background: rgba(255,255,255,0.3);
@@ -404,27 +407,48 @@
       cart.forEach(item => {
         const li = document.createElement('li');
         li.innerHTML = `
-          <span>${item.name} (${item.price})</span>
-          <span>Qty: ${item.quantity}</span>
-        `;
+         <button class="remove-item" data-name="${item.name}" aria-label="Remove ${item.name}" style="background:none;border:none;color:var(--maroon);font-size:1.2rem;cursor:pointer;margin-right:0.5rem;">&#10005;</button>
+         <span>${item.name} (${item.price})</span>
+         <span>Qty: ${item.quantity}</span>
+       `;
         cartPopupList.appendChild(li);
-        const priceValue = parseFloat(item.price.match(/[\d.]+/)[0]);
-        total += priceValue * item.quantity;
-      });
+        const priceMatch = item.price.replace(',', '.').match(/[\d]+(\.\d+)?/);
+        const priceValue = priceMatch ? parseFloat(priceMatch[0]) : NaN;
+        if (!isNaN(priceValue)) {
+  total += priceValue * item.quantity;
+}
+        });
       cartPopupTotal.innerHTML = `<strong>Total: €${total.toFixed(2)}</strong>`;
     }
-
-    function addToCart(name, price) {
-      const item = cart.find(item => item.name === name);
-      if (item) {
-        item.quantity += 1;
-      } else {
-        cart.push({ name, price, quantity: 1 });
+    // Remove item from cart when cross is clicked
+    cartPopupList.addEventListener('click', function(event) {
+      if (event.target.classList.contains('remove-item')) {
+        const name = event.target.getAttribute('data-name');
+        cart = cart.filter(item => item.name !== name);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCart();
       }
-      localStorage.setItem('cart', JSON.stringify(cart));
-      updateCart();
-      alert(`${name} added to cart!`);
-    }
+    });
+    function addToCart(name, price) {
+      // Extract the first valid number from the price string
+      const priceMatch = price.replace(',', '.').match(/[\d]+(\.\d+)?/);
+      const priceValue = priceMatch ? parseFloat(priceMatch[0]) : NaN;
+      if (isNaN(priceValue)) {
+        alert("This item cannot be added to the cart because it may out of stock or coming soon.");
+        return;
+      }
+
+  const item = cart.find(item => item.name === name);
+  if (item) {
+    item.quantity += 1;
+  } else {
+    cart.push({ name, price, quantity: 1 });
+  }
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCart();
+  alert(`${name} added to cart!`);
+}
+
 
     function handleAddToCart(event) {
       const button = event.target;
