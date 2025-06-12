@@ -477,55 +477,42 @@
     });
 
     // Handle form submission
- orderForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const name = document.getElementById('name').value.trim();
-  const address = document.getElementById('address').value.trim();
-  const phone = document.getElementById('phone').value.trim();
+    orderForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const phone = document.getElementById('phone').value.trim();
 
-  if (!name || !address || !phone) {
-    alert('Please fill all the fields.');
-    return;
-  }
+      if (!name || !address || !phone) {
+        alert('Please fill all the fields.');
+        return;
+      }
 
-  // Prepare order details string
-  let orderDetails = '';
-  cart.forEach(item => {
-    orderDetails += `${item.name} (${item.price}) x ${item.quantity}\n`;
-  });
+      // Prepare email body with order details
+      let orderDetails = `Name: ${name}\nAddress: ${address}\nPhone: ${phone}\n\nOrder Items:\n`;
+      cart.forEach(item => {
+        orderDetails += `${item.name} (${item.price}) x ${item.quantity}\n`;
+      });
+      const total = cart.reduce((sum, item) => {
+        const priceValue = parseFloat(item.price.match(/[\d.]+/)[0]);
+        return sum + (priceValue * item.quantity);
+      }, 0);
+      orderDetails += `\nTotal: €${total.toFixed(2)}`;
 
-  // Calculate total price (ignore non-numeric prices)
-  const total = cart.reduce((sum, item) => {
-    const priceMatch = item.price.replace(',', '.').match(/[\d]+(\.\d+)?/);
-    const priceValue = priceMatch ? parseFloat(priceMatch[0]) : NaN;
-    return !isNaN(priceValue) ? sum + (priceValue * item.quantity) : sum;
-  }, 0);
+      // Open user's mail client with pre-filled email
+      const mailto = `mailto:naveen.akkireddy@gmail.com?subject=New Order from Kildare Kirana Online Store&body=${encodeURIComponent(orderDetails)}`;
+      window.location.href = mailto;
 
-  orderDetails += `\nTotal: €${total.toFixed(2)}`;
+      // Show confirmation
+      alert(`Thank you, ${name}! Your order details have been sent. We will contact you at your phone number.`);
 
-  // Google Form base URL
-  const formBase = "https://docs.google.com/forms/d/e/1FAIpQLScWXxUHc4m_jEDnN-BSFJIfCXgVV8kNS1mqFlcOiT6BVF87GA/viewform";
-
-  // Google Form entry IDs from your link
-  const params = new URLSearchParams({
-    "entry.74111174": name,
-    "entry.1138229484": address,
-    "entry.367648401": phone,
-    "entry.1073134541": orderDetails
-  });
-
-  // Open pre-filled Google Form in new tab
-  window.open(`${formBase}?${params.toString()}`, "_blank");
-
-  alert(`Thank you, ${name}! Your order has been submitted. We will contact you soon.`);
-
-  // Clear cart and form
-  localStorage.removeItem('cart');
-  cart = [];
-  orderForm.reset();
-  document.getElementById('order-form').style.display = 'none';
-  updateCart();
-});
+      // Clear cart and form
+      localStorage.removeItem('cart');
+      cart = [];
+      orderForm.reset();
+      document.getElementById('order-form').style.display = 'none';
+      updateCart();
+    });
 
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
