@@ -36,6 +36,14 @@
       margin: 0 auto;
     }
   </style>
+
+  <script>
+    // Check if the page was loaded from browser history (i.e., refresh)
+    if (performance.navigation.type === 1) {
+      // Redirect to homepage
+      window.location.href = "https://kildarekirana.com";
+    }
+  </script>
 </head>
 <body>
   <div>
