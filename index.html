@@ -242,8 +242,10 @@
     .cart-popup li {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       padding: 0.5rem 0;
       border-bottom: 1px solid #eee;
+      flex-wrap: wrap;
     }
     @media (max-width: 700px) {
       .products { flex-direction: column; align-items: center; }
@@ -274,6 +276,8 @@
     <h3>Your Cart</h3>
     <ul id="cartPopupList"></ul>
     <div id="cartPopupTotal"></div>
+	<p id="emptyCartMessage" style="color: var(--maroon); display: none; text-align: center; font-weight: bold; margin-top: 1rem;">Cart is empty, please add items.</p>
+    <button id="placeOrderFromPopup" style="background: var(--saffron); color: #fff; border: none; border-radius: 4px; padding: 0.5rem 1rem; cursor: pointer; font-weight: bold; width: 100%; margin-top: 1rem;">Place Order</button>
     <button id="placeOrderFromPopup" style="background: var(--saffron); color: #fff; border: none; border-radius: 4px; padding: 0.5rem 1rem; cursor: pointer; font-weight: bold; width: 100%; margin-top: 1rem;">Place Order</button>
   </div>
   <nav>
@@ -352,7 +356,13 @@
           <div class="originalprice"><del>€3.49/pc</del></div>
           <div class="price">€2.79/pc</div>
           <div class="Expiry" style="font-weight: bold;">Expiry: 03/2026</div>
-          <button>Add to Cart</button>
+          <select class="flavor-select" style="margin-bottom: 0.5rem; width: 100%;">
+            <option value="Lime">Lime</option>
+            <option value="Mango">Mango</option>
+            <option value="Orange">Orange</option>
+            <option value="Jeera">Jeera</option>
+          </select>
+          <button class="add-to-cart-flavor">Add to Cart</button>
         </div>
         <div class="card">
           <img src="https://kildarekirana.com/Snacks.jpg" alt="Snacks">
@@ -407,6 +417,7 @@
         <label for="phone">Phone Number:</label>
         <input type="tel" id="phone" name="phone" pattern="[0-9]{10,15}" required>
         <button type="submit">Submit Order</button>
+		
       </form>
     </section>
     <section id="contact" style="margin-top:2.5rem;">
@@ -434,16 +445,22 @@
       // Update cart count
       const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
       cartCount.textContent = totalItems;
+	  //Greyout the place oder option if cart is empty
+	  
       // Update cart popup
       cartPopupList.innerHTML = '';
       let total = 0;
       cart.forEach(item => {
         const li = document.createElement('li');
         li.innerHTML = `
-         <button class="remove-item" data-name="${item.name}" aria-label="Remove ${item.name}" style="background:none;border:none;color:var(--maroon);font-size:1.2rem;cursor:pointer;margin-right:0.5rem;">&#10005;</button>
-         <span>${item.name} (${item.price})</span>
-         <span>Qty: ${item.quantity}</span>
-       `;
+        <span style="flex: 1;">${item.name} (${item.price})</span>
+        <div style="display: flex; align-items: center; gap: 5px;">
+          <button class="decrease-qty" data-name="${item.name}" style="padding: 2px 8px;">−</button>
+          <span>${item.quantity}</span>
+          <button class="increase-qty" data-name="${item.name}" style="padding: 2px 8px;">+</button>
+          <button class="remove-item" data-name="${item.name}" aria-label="Remove ${item.name}" style="background:none;border:none;color:var(--maroon);font-size:1rem;cursor:pointer;">&#10005;</button>
+        </div>
+      `;
         cartPopupList.appendChild(li);
         const priceMatch = item.price.replace(',', '.').match(/[\d]+(\.\d+)?/);
         const priceValue = priceMatch ? parseFloat(priceMatch[0]) : NaN;
@@ -462,6 +479,31 @@
         updateCart();
       }
     });
+	cartPopupList.addEventListener('click', function(event) {
+      const name = event.target.getAttribute('data-name');
+      if (!name) return;
+    
+      if (event.target.classList.contains('remove-item')) {
+        cart = cart.filter(item => item.name !== name);
+      } else if (event.target.classList.contains('increase-qty')) {
+        const item = cart.find(item => item.name === name);
+        if (item) item.quantity += 1;
+      } else if (event.target.classList.contains('decrease-qty')) {
+        const item = cart.find(item => item.name === name);
+        if (item) {
+          item.quantity -= 1;
+          if (item.quantity <= 0) {
+            cart = cart.filter(i => i.name !== name);
+          }
+        }
+      } else {
+        return; // Not a known button
+      }
+    
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCart();
+    });
+	
     function addToCart(name, price) {
       // Extract the first valid number from the price string
       const priceMatch = price.replace(',', '.').match(/[\d]+(\.\d+)?/);
@@ -486,9 +528,19 @@
     function handleAddToCart(event) {
       const button = event.target;
       const card = button.closest('.card');
-      const name = card.querySelector('.name').innerText;
+      let name = card.querySelector('.name').innerText;
       const price = card.querySelector('.price').innerText;
+      
+      // Check for flavor dropdown
+      const flavorSelect = card.querySelector('.flavor-select');
+      if (flavorSelect) {
+        const selectedFlavor = flavorSelect.value;
+        name += ` - ${selectedFlavor}`;
+      }
+      
       addToCart(name, price);
+
+
     }
 
     // Toggle cart popup
@@ -537,8 +589,11 @@
       summaryInput.value = orderDetails;
 
   // Cart will be cleared after successful form submission
+          localStorage.removeItem('cart');
+          cart = [];
+          updateCart();
   });
-    
+
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
       const buttons = document.querySelectorAll('.card button');
@@ -550,4 +605,3 @@
   </script>
 </body>
 </html>
-
