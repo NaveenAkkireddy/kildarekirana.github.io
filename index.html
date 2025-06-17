@@ -278,7 +278,6 @@
     <div id="cartPopupTotal"></div>
 	<p id="emptyCartMessage" style="color: var(--maroon); display: none; text-align: center; font-weight: bold; margin-top: 1rem;">Cart is empty, please add items.</p>
     <button id="placeOrderFromPopup" style="background: var(--saffron); color: #fff; border: none; border-radius: 4px; padding: 0.5rem 1rem; cursor: pointer; font-weight: bold; width: 100%; margin-top: 1rem;">Place Order</button>
-    <button id="placeOrderFromPopup" style="background: var(--saffron); color: #fff; border: none; border-radius: 4px; padding: 0.5rem 1rem; cursor: pointer; font-weight: bold; width: 100%; margin-top: 1rem;">Place Order</button>
   </div>
   <nav>
     <a href="#rice">Rice</a>
@@ -361,7 +360,6 @@
             <option value="Mango">Mango</option>
             <option value="Orange">Orange</option>
             <option value="Jeera">Jeera</option>
-            <option value="Jeera">Mojito</option>
           </select>
           <button class="add-to-cart-flavor">Add to Cart</button>
         </div>
@@ -430,7 +428,7 @@
     </section>
   </div>
   <footer>
-    &copy; 2025 YUKTA - Kildare Kirana Store. Bringing India’s flavors to your doorstep.
+    &copy; 2025 Kildare Kirana Online Store. Bringing India’s flavors to your doorstep.
   </footer>
   <script>
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -447,7 +445,22 @@
       const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
       cartCount.textContent = totalItems;
 	  //Greyout the place oder option if cart is empty
-	  
+	  const emptyMsg = document.getElementById('emptyCartMessage');
+      const placeOrderBtn = document.getElementById('placeOrderFromPopup');
+      
+      if (totalItems === 0) {
+        cartPopupList.innerHTML = '<li>Your cart is empty.</li>';
+        cartPopupTotal.innerHTML = '';
+        placeOrderBtn.disabled = true;
+        placeOrderBtn.style.opacity = '0.6';
+        placeOrderBtn.style.cursor = 'not-allowed';
+        emptyMsg.style.display = 'block';
+      } else {
+        placeOrderBtn.disabled = false;
+        placeOrderBtn.style.opacity = '1';
+        placeOrderBtn.style.cursor = 'pointer';
+        emptyMsg.style.display = 'none';
+      }
       // Update cart popup
       cartPopupList.innerHTML = '';
       let total = 0;
