@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Logo Contest – Kildare Kirana Store</title>
+  <style>
+    :root {
+      --saffron: #FF9933;
+      --green: #138808;
+      --maroon: #800000;
+      --cream: #FFF8E1;
+      --shadow: rgba(0,0,0,0.07);
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: var(--cream);
+      color: #222;
+    }
+    header {
+      background: linear-gradient(90deg, var(--saffron), var(--green));
+      color: #fff;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .container {
+      max-width: 700px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px var(--shadow);
+    }
+    h1 {
+      color: var(--maroon);
+      text-align: center;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 1rem;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 1.5rem;
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+    }
+    .highlight {
+      background: var(--saffron);
+      padding: 0.8rem;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      background: var(--maroon);
+      color: #fff;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎨 Logo Design Contest</h1>
+    <p>Hosted by Kildare Kirana Store</p>
+  </header>
+
+  <div class="container">
+    <div class="highlight">
+      Deadline: July 13, 2025 – Winner gets a FREE Groceries gift hamper from us!
+    </div>
+    <p>Submit your original logo design for the Kildare Kirana Store. The best design will be featured on our website and social media!</p>
+    <p>*Condition: Max two entries per person</p>
+    <p>**Tip: Logo should reflect the theme of the business that order groceries online and full/short name of the business</p>
+
+    <form method="POST" action="https://formsubmit.co/kildarekirana@yahoo.com" enctype="multipart/form-data">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="https://kildarekirana.com/thank-you.html">
+
+      <label for="designer-name">Your Name:</label>
+      <input type="text" id="designer-name" name="designer_name" required>
+
+      <label for="contact">Contact (Phone or Email):</label>
+      <input type="text" id="contact" name="contact" required placeholder="e.g. john@example.com or 0891234567">
+
+      <label for="logo-upload">Upload Logo File:</label>
+      <input type="file" id="logo-upload" name="attachment" accept="image/*" required>
+
+      <button type="submit">Submit Logo</button>
+    </form>
+  </div>
+
+  <footer>
+    &copy; 2025 Kildare Kirana Store – All rights reserved.
+  </footer>
+</body>
+</html>

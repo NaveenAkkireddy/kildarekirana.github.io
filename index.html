@@ -47,6 +47,27 @@
       margin: 2rem auto;
       padding: 0 1rem;
     }
+        .logo-contest-btn {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      z-index: 9999;
+      background-color: var(--saffron);
+      color: white;
+      font-weight: bold;
+      border: 2px solid var(--maroon);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      animation: blink 1.5s infinite;
+      text-decoration: none;
+    }
+    
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
     .section-title {
       color: var(--maroon);
       font-size: 2rem;
@@ -634,4 +655,5 @@
     });
   </script>
 </body>
-</html>
+<a href="logo-contest.html" class="logo-contest-btn">🎨 Logo Contest</a>
+</html> 
