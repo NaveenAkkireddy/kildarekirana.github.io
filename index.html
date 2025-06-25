@@ -47,7 +47,7 @@
       margin: 2rem auto;
       padding: 0 1rem;
     }
-        .logo-contest-btn {
+    .logo-contest-btn {
       position: absolute;
       top: 1rem;
       left: 1rem;
@@ -61,8 +61,22 @@
       cursor: pointer;
       animation: blink 1.5s infinite;
       text-decoration: none;
+      font-size: 1rem;
     }
     
+    @media (max-width: 700px) {
+      .logo-contest-btn {
+        position: fixed;
+        top: 1rem;
+        left: 0.5rem;
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+        z-index: 9999;
+        background-color: var(--saffron);
+        box-shadow: 0 2px 8px var(--shadow);
+      }
+    }
+        
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.4; }
