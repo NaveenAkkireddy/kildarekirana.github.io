@@ -47,36 +47,39 @@
       margin: 2rem auto;
       padding: 0 1rem;
     }
+  .logo-contest-btn {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 9999;
+    background-color: var(--saffron);
+    color: white;
+    font-weight: bold;
+    border: 3px solid var(--maroon);
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    animation: blink 1.5s infinite;
+    text-decoration: none;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  
+  @media (max-width: 700px) {
     .logo-contest-btn {
-      position: absolute;
+      position: fixed;
       top: 1rem;
-      left: 1rem;
-      z-index: 9999;
-      background-color: var(--saffron);
-      color: white;
-      font-weight: bold;
-      border: 2px solid var(--maroon);
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-      animation: blink 1.5s infinite;
-      text-decoration: none;
+      left: 0.5rem;
       font-size: 1rem;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
     }
-    
-    @media (max-width: 700px) {
-      .logo-contest-btn {
-        position: fixed;
-        top: 1rem;
-        left: 0.5rem;
-        font-size: 0.9rem;
-        padding: 0.4rem 0.8rem;
-        z-index: 9999;
-        background-color: var(--saffron);
-        box-shadow: 0 2px 8px var(--shadow);
-      }
-    }
-        
+  }
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.4; }
