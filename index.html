@@ -842,19 +842,31 @@
     </section>
     <section id="order-form">
       <h2 class="section-title">Place Your Order</h2>
-      <form id="orderForm" method="POST" action="https://formspree.io/f/mzdwpkjj">
+      <form action="https://splitforms.com/api/submit" method="POST">
+        <input type="hidden" name="access_key" value="35bb3ffbe4fa4820a1d007bf34101128">
+
         <!-- Prevent bot spam -->
-        <input type="hidden" name="_captcha" value="false">
+        <input type="checkbox" name="botcheck" style="display:none">
+
         <!-- Redirect to a thank you page or show success -->
-        <input type="hidden" name="_next" value="https://kildarekirana.com/thank-you.html">
+        <input type="hidden" name="redirectTo" value="https://kildarekirana.com/thank-you.html">
+
         <!-- This field will contain cart summary -->
         <input type="hidden" name="order_summary" id="orderSummary">
+
+        <!-- Name -->
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
+
+        <!-- Address -->
         <label for="address">Address:</label>
         <textarea id="address" name="address" rows="3" required></textarea>
+
+        <!-- Phone Number -->
         <label for="phone">Phone Number:</label>
         <input type="tel" id="phone" name="phone" pattern="[0-9]{10,15}" required>
+
+        <!-- Submit -->
         <button type="submit">Submit Order</button>
 		
       </form>
