@@ -442,15 +442,7 @@
         font-size: 1rem;
       }
     }
-   /* Class to smoothly hide the hero section when exploring */
-    .hero-section.hidden-hero {
-      height: 0 !important;
-      padding: 0 !important;
-      margin: 0 !important;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.5s ease-out;
-    }
+
 .whatsapp-float {
   position: fixed;
   width: 60px;
@@ -496,7 +488,7 @@
     <div class="hero-content">
       <h2>Bring the Vibrant Flavors of India Home</h2>
       <p>Premium Spices, Authentic Pulses &amp; Handcrafted Snacks Delivered Straight to Your Doorstep.</p>
-      <a href="#pulses" class="hero-btn" onclick="hideLandingPage(event)">Explore Our Collection</a>
+      <a href="#pulses" class="hero-btn">Explore Our Collection</a>
     </div>
   </div>
 </section>
@@ -982,25 +974,6 @@
           document.getElementById('imageModal').style.display = 'flex';
         });
       });
-      
-    function hideLandingPage(event) {
-    // Prevent default sudden jump behavior
-    event.preventDefault();
-  
-    const hero = document.getElementById('welcome-hero');
-    if (hero) {
-      // Add the hidden class to shrink and fade out the landing page
-      hero.classList.add('hidden-hero');
-    
-      // Smoothly scroll down to the main shop section after it hides
-      setTimeout(() => {
-        const targetSection = document.getElementById('pulses');
-        if (targetSection) {
-        targetSection.scrollIntoView({ behavior: 'smooth' });
-      }
-                        }, 300); // Waits slightly for the shrink animation to initiate
-              }
-    }
       
       // Function to close modal
       function closeModal() {
