@@ -879,12 +879,25 @@
     </section>
   </div>
   <footer>
-    &copy; 2025 YUKTA Kildare Kirana Store. Bringing India’s flavors to your doorstep.
-  </footer>uuuuuuuuuuuuuuuuuuuuuuuuuuuuuu,,,,,,,,,,,,,,kkky,,,y,ky,,,jyyy,jjjyyhtttttthtttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt,tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttk/lio;;@
+    &copy; 2026 Kildare Kirana Store. Bringing India’s flavors to your doorstep.
+  </footer>
   
 
 <script>
+
+  /*
+    =========================
+    CART STORAGE
+    =========================
+  */
+
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  /*
+    =========================
+    ELEMENTS
+    =========================
+  */
 
   const cartIcon = document.getElementById('cartIcon');
   const cartCount = document.getElementById('cartCount');
@@ -895,7 +908,7 @@
 
   /*
     =========================
-    UPDATE CART UI
+    UPDATE CART
     =========================
   */
 
@@ -914,7 +927,9 @@
       cartPopupTotal.innerHTML = '';
 
       placeOrderFromPopup.disabled = true;
+
       placeOrderFromPopup.style.opacity = '0.6';
+
       placeOrderFromPopup.style.cursor = 'not-allowed';
 
       emptyMsg.style.display = 'block';
@@ -925,7 +940,9 @@
     }
 
     placeOrderFromPopup.disabled = false;
+
     placeOrderFromPopup.style.opacity = '1';
+
     placeOrderFromPopup.style.cursor = 'pointer';
 
     emptyMsg.style.display = 'none';
@@ -983,6 +1000,40 @@
     `;
 
     localStorage.setItem('cart', JSON.stringify(cart));
+
+  }
+
+  /*
+    =========================
+    TOAST MESSAGE
+    =========================
+  */
+
+  function showToast(message) {
+
+    const toast = document.createElement('div');
+
+    toast.innerText = message;
+
+    toast.style.position = 'fixed';
+    toast.style.bottom = '100px';
+    toast.style.right = '20px';
+    toast.style.background = 'var(--green)';
+    toast.style.color = '#fff';
+    toast.style.padding = '12px 20px';
+    toast.style.borderRadius = '8px';
+    toast.style.zIndex = '99999';
+    toast.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+    toast.style.fontWeight = 'bold';
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+
+      toast.remove();
+
+    }, 2000);
+
   }
 
   /*
@@ -1028,7 +1079,7 @@
 
   /*
     =========================
-    HANDLE BUTTON CLICK
+    HANDLE ADD TO CART
     =========================
   */
 
@@ -1060,37 +1111,7 @@
 
   /*
     =========================
-    TOAST MESSAGE
-    =========================
-  */
-
-  function showToast(message) {
-
-    const toast = document.createElement('div');
-
-    toast.innerText = message;
-
-    toast.style.position = 'fixed';
-    toast.style.bottom = '100px';
-    toast.style.right = '20px';
-    toast.style.background = 'var(--green)';
-    toast.style.color = '#fff';
-    toast.style.padding = '12px 20px';
-    toast.style.borderRadius = '8px';
-    toast.style.zIndex = '99999';
-    toast.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
-    toast.style.fontWeight = 'bold';
-
-    document.body.appendChild(toast);
-
-    setTimeout(() => {
-      toast.remove();
-    }, 2000);
-  }
-
-  /*
-    =========================
-    CART BUTTON ACTIONS
+    CART ACTIONS
     =========================
   */
 
@@ -1176,7 +1197,7 @@
 
   /*
     =========================
-    IMAGE ZOOM
+    IMAGE MODAL
     =========================
   */
 
@@ -1236,7 +1257,15 @@
 
     if (orderForm) {
 
-      orderForm.addEventListener('submit', function(e) {
+      orderForm.addEventListener('submit', async function(e) {
+
+        e.preventDefault();
+
+        const submitButton = orderForm.querySelector('button[type="submit"]');
+
+        submitButton.disabled = true;
+
+        submitButton.innerText = 'Submitting Order...';
 
         const name = document.getElementById('name').value.trim();
 
@@ -1250,10 +1279,16 @@
 
           alert('Please fill all fields.');
 
-          e.preventDefault();
+          submitButton.disabled = false;
+
+          submitButton.innerText = 'Submit Order';
 
           return;
         }
+
+        /*
+          BUILD ORDER SUMMARY
+        */
 
         let orderDetails = `
 Name: ${name}
@@ -1286,6 +1321,59 @@ Total: €${total.toFixed(2)}
 
         summaryInput.value = orderDetails;
 
+        /*
+          SUBMIT FORM
+        */
+
+        const formData = new FormData(orderForm);
+
+        try {
+
+          const response = await fetch(orderForm.action, {
+            method: 'POST',
+            body: formData
+          });
+
+          if (response.ok) {
+
+            /*
+              CLEAR CART
+            */
+
+            localStorage.removeItem('cart');
+
+            cart = [];
+
+            updateCart();
+
+            /*
+              REDIRECT
+            */
+
+            window.location.href = 'https://kildarekirana.com/thank-you.html';
+
+          } else {
+
+            alert('Order submission failed. Please try again.');
+
+            submitButton.disabled = false;
+
+            submitButton.innerText = 'Submit Order';
+
+          }
+
+        } catch (error) {
+
+          console.error(error);
+
+          alert('Something went wrong. Please try again.');
+
+          submitButton.disabled = false;
+
+          submitButton.innerText = 'Submit Order';
+
+        }
+
       });
 
     }
@@ -1297,6 +1385,7 @@ Total: €${total.toFixed(2)}
     updateCart();
 
   });
+
 </script>
 </body>
 </html>
